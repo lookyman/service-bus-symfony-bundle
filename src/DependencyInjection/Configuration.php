@@ -24,9 +24,9 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('prooph_service_bus');
         /** @var ArrayNodeDefinition $rootNode Help phpstan */
-        $rootNode = $treeBuilder->root('prooph_service_bus');
+        $rootNode = $treeBuilder->getRootNode();
 
         foreach (ProophServiceBusExtension::AVAILABLE_BUSES as $type) {
             $this->addServiceBusSection($type, $rootNode);
@@ -45,9 +45,9 @@ final class Configuration implements ConfigurationInterface
      */
     private function addServiceBusSection(string $type, ArrayNodeDefinition $node): void
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('routes');
         /** @var ArrayNodeDefinition $routesNode */
-        $routesNode = $treeBuilder->root('routes');
+        $routesNode = $treeBuilder->getRootNode();
         $routesNode->useAttributeAsKey($type);
         $handlerNode = $routesNode->prototype('event' === $type ? 'array' : 'scalar');
 
